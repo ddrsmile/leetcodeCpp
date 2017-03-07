@@ -4,8 +4,17 @@ branches:
   only:
     - master
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.7
+      - llvm-toolchain-precise
+    packages:
+      - clang-3.7
+
 before_script:
   - source set_env.sh
 
 script:
-  - ./test.sh 1
+  - ./test.sh
