@@ -8,26 +8,25 @@ using namespace std;
 
 class InputHandler {
     private:
-        string inputPath;
+        string input_path_;
 
         // helper methods
         vector<string> split(const string& str, char delim);
+        vector<string> split(const string& str, const string& delim);
+        string find_and_replace(const string& str, const string& find, const string& replace);
 
-        // Integer containers
-        vector<int> inInt;
-        vector<vector<int>> inIntVector;
-        vector<vector<vector<int>>> inIntVectors;
-        
-
-        int getInt(string str);
-        vector<int> getIntVector(string str);
+        // integer methods
+        vector<int> get_int_vector(string str);
+        vector<vector<int>> get_int_vectors(string str);
 
     public:
         // constructor
         InputHandler(string inputPath);
 
-        // methods
-        vector<vector<int>> getDataAsIntVector();
+        // public methods
+        vector<int> GetDataAsInt();
+        vector<vector<int>> GetDataAsIntVector();
+        vector<vector<vector<int>>> GetDataAsIntVectors();
 };
 
 vector<string> InputHandler::split(const string& str, char delim) {
@@ -40,38 +39,99 @@ vector<string> InputHandler::split(const string& str, char delim) {
     return tokens;
 }
 
-InputHandler::InputHandler(string inputPath) {
-    this->inputPath = inputPath;
+vector<string> InputHandler::split(const string& str, const string& delim) {
+    string::size_type pos = 0;
+    string resource = str;
+    string token;
+    vector<string> tokens;
+    while ((pos = resource.find(delim)) != string::npos) {
+        token = resource.substr(0, pos);
+        tokens.push_back(token);
+        resource.erase(0, pos + delim.length());
+    }
+    tokens.push_back(resource);
+    return tokens;
 }
 
-int InputHandler::getInt(string str) {
-    return stoi(str);
+string InputHandler::find_and_replace(const string& str, const string& find, const string& replace) {
+    string::size_type pos = 0;
+    string output_str = str;
+    while ((pos = output_str.find(find, pos) != string::npos)) {
+        output_str.replace(pos, find.length(), replace);
+        pos += replace.length();
+    }
+    return output_str;
 }
 
-vector<int> InputHandler::getIntVector(string str) {
+InputHandler::InputHandler(string input_path) {
+    this->input_path_ = input_path;
+}
+
+vector<int> InputHandler::get_int_vector(string str) {
     if (str[0] != '[' && str[str.size() - 1] != ']') {
-        vector<int> tmp = {stoi(str)};
-        return tmp;
+        return {stoi(str)};
+    }
+    vector<int> output_vector;
+    str = str.substr(1, str.size() - 2);
+    if (str.size() == 0) return output_vector;
+    str.erase(remove(str.begin(),str.end(),' '),str.end());
+    vector<string> int_vector = this->split(str, ',');
+    for (vector<string>::iterator it = int_vector.begin(); it != int_vector.end(); it++) {
+        output_vector.push_back(stoi(*it));
+    }
+    return output_vector;
+}
+
+vector<vector<int>> InputHandler::get_int_vectors(string str) {
+    vector<vector<int>> output_vector;
+    if (str[0] != '[' && str[str.size() - 1] != ']') {
+        output_vector.push_back({stoi(str)});
     }
     str = str.substr(1, str.size() - 2);
-    if (str.size() == 0) return vector<int>();
-    str.erase(remove(str.begin(),str.end(),' '),str.end());
-    vector<string> ints = this->split(str, ',');
-    vector<int> out(ints.size());
-    for (int i = 0; i < ints.size(); i++) {
-        out[i] = stoi(ints[i]);
+    if (str.size() == 0) return output_vector;
+    str = this->find_and_replace(str, "],[", "], [");
+    vector<string> int_vectors = this->split(str, ", ");
+    for (vector<string>::iterator it = int_vectors.begin(); it != int_vectors.end(); it++) {
+        output_vector.push_back(this->get_int_vector(*it));
     }
-    return out;
+    return output_vector;
 }
 
-vector<vector<int>> InputHandler::getDataAsIntVector() {
-    if (this->inputPath.size() == 0) {
-        return this->inIntVector;
+vector<int> InputHandler::GetDataAsInt() {
+    vector<int> output_vector;
+    if (this->input_path_.size() == 0) {
+        return output_vector;
     }
     string str;
-    ifstream ins(this->inputPath);
-    while (getline(ins, str)) {
-        this->inIntVector.push_back(this->getIntVector(str));
+    ifstream input_contents(this->input_path_);
+    while (getline(input_contents, str)) {
+        output_vector.push_back(stoi(str));
     }
-    return this->inIntVector;
+    return output_vector;
+}
+
+vector<vector<int>> InputHandler::GetDataAsIntVector() {
+    vector<vector<int>> output_vector;
+    if (this->input_path_.size() == 0) {
+        return output_vector;
+    }
+    string str;
+    ifstream input_contents(this->input_path_);
+    while (getline(input_contents, str)) {
+        output_vector.push_back(this->get_int_vector(str));
+    }
+    return output_vector;
+}
+
+vector<vector<vector<int>>> InputHandler::GetDataAsIntVectors() {
+    vector<vector<vector<int>>> output_vector;
+    if (this->input_path_.size() == 0) {
+        return output_vector;
+    }
+    string str;
+    ifstream input_contents(this->input_path_);
+    while (getline(input_contents, str)) {
+        output_vector.push_back(this->get_int_vectors(str));
+    }
+    return output_vector;
 }
