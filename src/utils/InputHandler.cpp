@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 #include <string>
 #include <sstream>
 
@@ -74,7 +75,7 @@ vector<int> InputHandler::get_int_vector(string str) {
     vector<int> output_vector;
     str = str.substr(1, str.size() - 2);
     if (str.size() == 0) return output_vector;
-    str.erase(std::remove_if(str.begin(),str.end(), [](char x){return isspace(x);}),str.end());
+    str.erase(remove_if(str.begin(),str.end(), [](char x){return isspace(x);}),str.end());
     vector<string> int_vector = this->split(str, ',');
     for (vector<string>::iterator it = int_vector.begin(); it != int_vector.end(); it++) {
         output_vector.push_back(stoi(*it));
