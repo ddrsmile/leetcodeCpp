@@ -8,4 +8,4 @@ before_script:
   - source set_env.sh
 
 script:
-  - ./test.sh
+  - ./test.sh 1
