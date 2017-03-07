@@ -53,7 +53,7 @@ vector<int> InputHandler::getIntVector(string str) {
         vector<int> tmp = {stoi(str)};
         return tmp;
     }
-    str = str.substr(1, str.size() - 1);
+    str = str.substr(1, str.size() - 2);
     if (str.size() == 0) return vector<int>();
     str.erase(remove(str.begin(),str.end(),' '),str.end());
     vector<string> ints = this->split(str, ',');
