@@ -1,1 +1,1 @@
-# leetcodeCpp
+# leetcodeCpp [![Build Status](https://travis-ci.org/ddrsmile/leetcodeCpp.svg?branch=master)](https://travis-ci.org/ddrsmile/leetcodeCpp)
