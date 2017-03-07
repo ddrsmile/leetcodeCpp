@@ -20,7 +20,7 @@ for problem in ${problems[@]}
 do
   echo Run Problem $problem
   cp -f $SRC_DIR/main/$problem.cpp $SRC_DIR/main.cpp
-  cp -f $SRC_DIR/sols/$problem.cpp $SRC_DIR/sol.cpp
+  cp -f $SRC_DIR/sols/$problem.cpp $SRC_DIR/sols.cpp
   clang++ -std=c++11 $SRC_DIR/main.cpp -o $BIN_DIR/main.o
   echo "========== RESULT =========="
   $BIN_DIR/main.o $ROOT_DIR/input/$problem.txt
