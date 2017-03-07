@@ -10,7 +10,7 @@ using namespace std;
 #define UTILS_H
 
 // parse commandline input
-string argsparse(int argc, char* argv[]) {
+string GetFilePath(int argc, char* argv[]) {
     string path;
     if (argc == 2) {
         path = argv[1];
