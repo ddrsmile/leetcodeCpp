@@ -10,12 +10,12 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    string path = argsparse(argc, argv);
+    string path = GetFilePath(argc, argv);
     InputHandler ih(path);
     ListNodes listnodes = ListNodes();
     Solution sol = Solution();
 
-    vector<vector<int>> inIntVector = ih.getDataAsIntVector();
+    vector<vector<int>> inIntVector = ih.GetDataAsIntVector();
     for (int i = 0; i < inIntVector.size()/2; i++) {
         ListNode* l1 = listnodes.getList(inIntVector[2*i]);
         ListNode* l2 = listnodes.getList(inIntVector[2*i + 1]);
