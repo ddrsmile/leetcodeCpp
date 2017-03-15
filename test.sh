@@ -1,4 +1,12 @@
 #!/bin/bash
+ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ ! -d "bin" ]; then
+  mkdir bin
+fi
+BIN_DIR=$ROOT_DIR/bin
+SRC_DIR=$ROOT_DIR/src
+INPUT_DIR=$ROOT_DIR/input
+
 opt=$1
 echo START TEH TESTS
 
@@ -23,7 +31,7 @@ do
   cp -f $SRC_DIR/sols/$problem.cpp $SRC_DIR/sols.cpp
   clang++ -std=c++11 -I $SRC_DIR $SRC_DIR/main.cpp -o $BIN_DIR/main.o
   echo "========== RESULT =========="
-  $BIN_DIR/main.o $ROOT_DIR/input/$problem.txt
+  $BIN_DIR/main.o $INPUT_DIR/$problem.txt
   echo 
   echo "=========== DONE ==========="
   let cnt=cnt+1
