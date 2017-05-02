@@ -3,3 +3,5 @@ main.cpp
 sols.cpp
 main.o
 .vscode/
+.idea/
+cmake-build-debug/
